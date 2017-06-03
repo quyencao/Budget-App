@@ -5,6 +5,19 @@ var budgetController = (function() {
         this.id = id;
         this.description = description;
         this.value = value;
+        this.percentage = -1;
+    };
+    
+    Expense.prototype.calcPercentage = function(totalIncome) {
+        if(totalIncome > 0) {
+            this.percentage = Math.round(this.value / totalIncome * 100);  
+        } else {
+            this.percentage = -1;
+        }
+    };
+    
+    Expense.prototype.getPercentage = function() {
+        return this.percentage;  
     };
     
     var Income = function(id, description, value) {
@@ -88,6 +101,12 @@ var budgetController = (function() {
             }
         },
         
+        caculatePercentages: function() {
+            data.allItems.exp.forEach(function(current) {
+                current.calcPercentage(data.totals.inc);
+            });  
+        },
+        
         getBudget: function() {
             return {
                 budget: data.budget,
@@ -95,6 +114,15 @@ var budgetController = (function() {
                 totalExp: data.totals.exp,
                 percentage: data.percentage
             };
+        },
+        
+        getPercentages: function() {
+            var allPercentages;
+            allPercentages = data.allItems.exp.map(function(current) {
+               return current.getPercentage();
+            });
+            
+            return allPercentages;
         },
         
         testing: function() {
@@ -229,10 +257,13 @@ var controller = (function(budgetCtrl, UICtrl){
     
     var updatePercentages = function() {
         // 1. Caculate percentages
+        budgetCtrl.caculatePercentages();
         
         // 2. Get the percentages
+        var percentages = budgetCtrl.getPercentages();
         
         // 3. Update the UI with new percentages
+        console.log(percentages);
     };
     
     var ctrlAddItem = function() {
