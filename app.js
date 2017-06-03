@@ -227,6 +227,14 @@ var controller = (function(budgetCtrl, UICtrl){
         UICtrl.displayBudget(budget);
     };
     
+    var updatePercentages = function() {
+        // 1. Caculate percentages
+        
+        // 2. Get the percentages
+        
+        // 3. Update the UI with new percentages
+    };
+    
     var ctrlAddItem = function() {
         var input, newItem;
         
@@ -245,6 +253,9 @@ var controller = (function(budgetCtrl, UICtrl){
 
             // 5. Caculate and update budget
             updateBudget();
+            
+            // 6. Caculate and update percentages
+            updatePercentages();
         }
     }
     
@@ -265,6 +276,8 @@ var controller = (function(budgetCtrl, UICtrl){
             UICtrl.deleteListItem(itemID);
             // 3. Update and show new budget
             updateBudget();
+            // 4. Caculate and update percentages
+            updatePercentages();
         }
         
     };
